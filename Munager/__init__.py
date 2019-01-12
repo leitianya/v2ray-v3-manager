@@ -9,6 +9,7 @@ from Munager.V2Manager import V2Manager
 from Munager.SpeedTestManager import speedtest_thread
 import requests
 import json
+from copy import deepcopy
 
 class Munager:
     def __init__(self, config):
@@ -53,6 +54,8 @@ class Munager:
         new_node_info = None
         try :
             new_node_info = self.mu_api.get_node_info()
+        except json.decoder.JSONDecodeError:
+            self.logger.warning("No json response")
         except requests.exceptions.Timeout:
             self.logger.warning("Connection timeout， try again")
             new_node_info = self.mu_api.get_node_info()
@@ -99,9 +102,10 @@ class Munager:
             # self.manager.next_node_info or new_node_info 此时 current不为空
             # 选择直接初始化全部用户
             # start remove inbounds
+            self.logger.info("initial system")
             self.manager.remove_inbounds()
-            self.manager.users_to_be_removed=self.manager.users
-            self.manager.users_to_be_add =[]
+            self.manager.users_to_be_removed=deepcopy(self.manager.users)
+            self.manager.users_to_be_add ={}
             self.manager.update_users()
             self.manager.current_node_info = None
             self.manager.next_node_info = None
