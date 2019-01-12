@@ -7,6 +7,7 @@ from tornado.ioloop import IOLoop, PeriodicCallback
 from Munager.MuAPI import MuAPI
 from Munager.V2Manager import V2Manager
 from Munager.SpeedTestManager import speedtest_thread
+import requests
 import json
 
 class Munager:
@@ -19,10 +20,8 @@ class Munager:
         # mix
         self.ioloop = IOLoop.current()
         self.mu_api = MuAPI(self.config)
-        node_info = self.mu_api.get_node_info()
-        self.logger.info("Node infos: {}".format(node_info))
 
-        self.manager = V2Manager(self.config, next_node_info=node_info)
+        self.manager = V2Manager(self.config)
 
         self.first_time_start = True
 
@@ -51,44 +50,64 @@ class Munager:
 
     @gen.coroutine
     def update_manager(self):
-        new_node_info = self.mu_api.get_node_info()
-        self.logger.info("Old Node infos: {}".format(self.manager.next_node_info))
-        self.logger.info("New Node infos: {}".format(new_node_info))
-        if json.dumps(self.manager.next_node_info,sort_keys=True,indent=2) != json.dumps(new_node_info,sort_keys=True,indent=2)\
-                or self.first_time_start:
-            self.manager.next_node_info=new_node_info
-            self.manager.update_server()
-            self.first_time_start = False
-        # get from MuAPI and ss-manager
-        users = yield self.mu_api.get_users('email', self.manager.next_node_info)
-        current_user = self.manager.get_users()
-        self.logger.info('get MuAPI and ss-manager succeed, now begin to check ports.')
-        # self.logger.debug('get state from ss-manager: {}.'.format(state))
+        new_node_info = None
+        try :
+            new_node_info = self.mu_api.get_node_info()
+        except requests.exceptions.Timeout:
+            self.logger.warning("Connection timeout， try again")
+            new_node_info = self.mu_api.get_node_info()
+        except requests.exceptions.RequestException as e:
+            # catastrophic error. bail.
+            self.logger.warning(e)
+        if new_node_info:
+            self.logger.info("Old Node infos: {}".format(self.manager.next_node_info))
+            self.logger.info("New Node infos: {}".format(new_node_info))
+            if json.dumps(self.manager.next_node_info,sort_keys=True,indent=2) != json.dumps(new_node_info,sort_keys=True,indent=2):
+                self.manager.next_node_info=new_node_info
+                self.manager.update_server()
+            # get from MuAPI and ss-manager
+            users = yield self.mu_api.get_users('email', self.manager.next_node_info)
+            current_user = self.manager.get_users()
+            self.logger.info('get MuAPI and ss-manager succeed, now begin to check ports.')
+            # self.logger.debug('get state from ss-manager: {}.'.format(state))
 
-        # remove user by prefixed_id
-        for prefixed_id in current_user:
-            if prefixed_id not in users or not users.get(prefixed_id).available:
-                self.manager.remove(prefixed_id)
-                self.logger.info('need to remove client: {}.'.format(prefixed_id))
+            # remove user by prefixed_id
+            for prefixed_id in current_user:
+                if prefixed_id not in users or not users.get(prefixed_id).available:
+                    self.manager.remove(prefixed_id)
+                    self.logger.info('need to remove client: {}.'.format(prefixed_id))
 
-        # add prefixed_id
-        for prefixed_id, user in users.items():
-            if user.available and prefixed_id not in current_user:
-                if self.manager.add(user):
-                    self.logger.info('need to add user email {}.'.format(prefixed_id))
+            # add prefixed_id
+            for prefixed_id, user in users.items():
+                if user.available and prefixed_id not in current_user:
+                    if self.manager.add(user):
+                        self.logger.info('need to add user email {}.'.format(prefixed_id))
 
-            if user.available and prefixed_id in current_user:
-                if user != current_user.get(prefixed_id):
-                    if self.manager.remove(prefixed_id) and self.manager.add(user):
-                        self.logger.info('need to reset user {} due to method or password changed.'.format(prefixed_id))
+                if user.available and prefixed_id in current_user:
+                    if user != current_user.get(prefixed_id):
+                        if self.manager.remove(prefixed_id) and self.manager.add(user):
+                            self.logger.info('need to reset user {} due to method or password changed.'.format(prefixed_id))
 
-        # check finish
-        self.logger.info('check ports finished.')
-        self.logger.info("if update {}".format(self.manager.if_user_change))
-        if self.manager.if_user_change:
-            self.manager.if_user_change = False
+            # check finish
+            self.logger.info('check ports finished.')
+            self.logger.info("if update {}".format(self.manager.if_user_change))
+            if self.manager.if_user_change:
+                self.manager.if_user_change = False
+                self.manager.update_users()
+                self.manager.current_node_info = self.manager.next_node_info
+        else:
+            # self.manager.next_node_info or new_node_info 此时 current不为空
+            # 选择直接初始化全部用户
+            # start remove inbounds
+            self.manager.remove_inbounds()
+            self.manager.users_to_be_removed=self.manager.users
+            self.manager.users_to_be_add =[]
             self.manager.update_users()
-            self.manager.current_node_info = self.manager.next_node_info
+            self.manager.current_node_info = None
+            self.manager.next_node_info = None
+            self.first_time_start = True
+
+
 
     @gen.coroutine
     def upload_throughput(self):

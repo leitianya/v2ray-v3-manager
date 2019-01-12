@@ -17,7 +17,6 @@ class MuAPI:
         self.key = self.config.get('key')
         self.node_id = self.config.get('node_id')
         self.client = AsyncHTTPClient()
-        self.node_info = None
 
     def _get_request(self, path, query=dict(), method='GET', formdata=None,headers ={'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',}):
         query.update(key=self.key)
@@ -89,7 +88,7 @@ class MuAPI:
             user['id'] = user['uuid']
             ret[user['prefixed_id']] = current_user(**user)
             if 'Vmess' in prifix:
-                ret[user['prefixed_id']].set_alterId(int(self.node_info['server'].get('AlterId',16)))
+                ret[user['prefixed_id']].set_alterId(int(node_info['server'].get('AlterId',16)))
         return ret
 
     @gen.coroutine
@@ -154,7 +153,7 @@ class MuAPI:
 
     def get_node_info(self):
         url = self.url_base+"/mod_mu/nodes/{}/info".format(self.node_id)
-        r = requests.get(url, params={"key": self.key})
+        r = requests.get(url, params={"key": self.key},timeout=10)
         data = json.loads(r.text)['data']
         temp_server = data['server'].split(";")
         server = dict(zip(["server_address", 'port', 'AlterId', 'protocol', 'protocol_param'], temp_server[:5]))
@@ -171,5 +170,4 @@ class MuAPI:
                 extraArgs[key] = value
         server['extraArgs'] = extraArgs
         data['server'] = server
-        self.node_info = data
         return data
