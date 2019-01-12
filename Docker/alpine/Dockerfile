@@ -3,11 +3,13 @@ FROM ubuntu:latest as builder
 LABEL maintainer="Rico <rico93@outlook.com>"
 LABEL V2Ray = "4.11.0"
 
+ENV v2ray_version = 4.11.0
+
 RUN apt-get update
 RUN apt-get install curl -y
 RUN curl -L -o /tmp/go.sh https://install.direct/go.sh
 RUN chmod +x /tmp/go.sh
-RUN /tmp/go.sh
+RUN /tmp/go.sh --version ${v2ray_version}
 
 FROM python:3.6.7-alpine
 # http://bugs.python.org/issue19846
