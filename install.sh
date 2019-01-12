@@ -163,7 +163,7 @@ pre_install_caddy(){
 
     # Set caddy v2ray path
     echo "caddy v2ray path"
-    read -p "(Default password: /v2ray):" v2ray_path
+    read -p "(Default path: /v2ray):" v2ray_path
     [ -z "${v2ray_path}" ] && v2ray_path="/v2ray"
     echo
     echo "---------------------------"
@@ -180,6 +180,17 @@ pre_install_caddy(){
     echo "v2ray_email = ${v2ray_email}"
     echo "---------------------------"
     echo
+
+    # Set Caddy v2ray listen port
+    echo "caddy v2ray local listen port"
+    read -p "(Default path: 10550):" v2ray_port
+    [ -z "${v2ray_path}" ] && v2ray_port=10550
+    echo
+    echo "---------------------------"
+    echo "v2ray_path = ${v2ray_port}"
+    echo "---------------------------"
+    echo
+
 }
 
 # Config docker
@@ -215,6 +226,7 @@ config_caddy_docker(){
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_port}|"  ./docker-compose.yml
 }
 
 # Config caddy_docker
@@ -257,6 +269,7 @@ config_caddy_docker_cloudflare(){
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_port}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_EMAIL=xxxxxx@out.look.com|      - CLOUDFLARE_EMAIL=${cloudflare_email}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_API_KEY=xxxxxxx|      - CLOUDFLARE_API_KEY=${cloudflare_key}|"  ./docker-compose.yml
 

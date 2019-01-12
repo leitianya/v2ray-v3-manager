@@ -27,6 +27,7 @@ services:
       - V2RAY_DOMAIN=xxxx.com
       - V2RAY_PATH=/v2ray
       - V2RAY_EMAIL=xxxx@outlook.com
+      - V2RAY_PORT=10550
     network_mode: "host"
     volumes:
       - ./.caddy:/root/.caddy
