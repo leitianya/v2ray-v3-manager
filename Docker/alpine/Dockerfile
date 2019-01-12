@@ -1,7 +1,7 @@
 FROM ubuntu:latest as builder
 
 LABEL maintainer="Rico <rico93@outlook.com>"
-LABEL V2Ray = "4.8.0"
+LABEL V2Ray = "4.11.0"
 
 RUN apt-get update
 RUN apt-get install curl -y
