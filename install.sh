@@ -148,14 +148,14 @@ pre_install_docker_compose(){
     echo
 
     # Set ssrpanel speedtest function
-#    echo "Setting V2ray backend API Listen port"
-#    read -p "(V2ray API Listen port(Default 2333):" v2ray_api_port
-#    [ -z "${v2ray_api_port}" ] && v2ray_api_port=2333
-#    echo
-#    echo "---------------------------"
-#    echo "ssrpanel_speedtest = ${v2ray_api_port}"
-#    echo "---------------------------"
-#    echo
+    echo "Setting V2ray backend API Listen port"
+    read -p "(V2ray API Listen port(Default 2333):" v2ray_api_port
+    [ -z "${v2ray_api_port}" ] && v2ray_api_port=2333
+    echo
+    echo "---------------------------"
+    echo "ssrpanel_speedtest = ${v2ray_api_port}"
+    echo "---------------------------"
+    echo
 }
 
 pre_install_caddy(){
@@ -216,7 +216,7 @@ config_docker(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
-    #sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
 }
 
 
@@ -234,7 +234,7 @@ config_caddy_docker(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
-    #sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
@@ -278,7 +278,7 @@ config_caddy_docker_cloudflare(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
-    #sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
