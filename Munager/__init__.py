@@ -157,7 +157,7 @@ class Munager(object):
                     trace = traceback.format_exc()
                     logging.error(trace)
                     # logging.warn('db thread except:%s' % e)
-                if db_instance.event.wait(timeout) or not db_instance.is_all_thread_alive():
+                if db_instance.event.wait(timeout):
                     break
                 if db_instance.has_stopped:
                     break
