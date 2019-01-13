@@ -212,7 +212,7 @@ services:
       sspanel_url: "https://xxxx"
       key: "xxxx"
       docker: "true"
-      speedtest: "false"
+      speedtest: 6
       node_id: 10
     logging:
       options:
@@ -258,7 +258,7 @@ services:
       sspanel_url: "https://xxxx"
       key: "xxxx"
       docker: "true"
-      speedtest: "false"
+      speedtest: 6
       node_id: 10
     logging:
       options:

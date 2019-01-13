@@ -129,8 +129,8 @@ pre_install_docker_compose(){
 
     # Set ssrpanel speedtest function
     echo "use ssrpanel speedtest"
-    read -p "(ssrpanel speedtest: Default (false) ):" ssrpanel_speedtest
-    [ -z "${ssrpanel_speedtest}" ] && ssrpanel_speedtest="false"
+    read -p "(ssrpanel speedtest: Default (6) hours every time):" ssrpanel_speedtest
+    [ -z "${ssrpanel_speedtest}" ] && ssrpanel_speedtest=0
     echo
     echo "---------------------------"
     echo "ssrpanel_speedtest = ${ssrpanel_speedtest}"

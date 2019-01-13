@@ -9,5 +9,5 @@ node_id: 0
 
 upload_throughput_period: 60
 update_port_period: 60
-speedtest: false
+speedtest: 6
 docker: false
