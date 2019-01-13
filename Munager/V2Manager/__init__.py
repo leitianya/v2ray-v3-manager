@@ -3,11 +3,11 @@ from Munager.V2Manager.client import *
 from Munager.V2Manager.errors import *
 import uuid
 import os
-
+from configloader import  load_config
 
 class V2Manager:
     def __init__(self, config, current_node_info=None, next_node_info=None):
-        self.config = config
+        self.config = load_config()
         self.logger = logging.getLogger()
         self.client = Client("127.0.0.1", config.get("api_port","2333"))
         self.current_node_info = current_node_info
