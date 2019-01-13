@@ -329,7 +329,7 @@ pip3 install -r requirements.txt or pip3.6 install -r requirements.txt
 **修改配置：**
 
 修改 config.yml，将 docker 设为 false 并配置 sspanel_url、key、node_id 等。
-
+修改 /etc/v2ray/config.json 如果你修改了 config.yml里的 api_port, 修改config.json的12行。
 **运行：**
 
 ~~~
