@@ -7,6 +7,8 @@ from copy import deepcopy
 import traceback
 import socket
 from configloader import load_config
+import threading
+
 class Munager(object):
 
     def __init__(self):
@@ -20,6 +22,7 @@ class Munager(object):
         self.manager = V2Manager()
 
         self.first_time_start = True
+        self.event = threading.Event()
 
     def update_manager(self):
 
