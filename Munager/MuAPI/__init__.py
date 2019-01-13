@@ -8,7 +8,7 @@ class MuAPIError(Exception):
     pass
 
 class MuAPI:
-    def __init__(self, config):
+    def __init__(self):
         self.logger = logging.getLogger()
         self.config = load_config()
         self.url_base = self.config.get('sspanel_url')
