@@ -4,8 +4,8 @@ import click
 import yaml
 import os
 import threading
-import web_transfer
 from Munager.SpeedTestManager import speedtest_thread
+from Munager import Munager
 
 
 class MainThread(threading.Thread):
@@ -44,7 +44,7 @@ def main(config_file):
     logger.info("use speedtest {}".format(config.get("speedtest",False)))
 
 
-    threadMain = MainThread(web_transfer.WebTransfer)
+    threadMain = MainThread(Munager)
 
     threadMain.start()
 
