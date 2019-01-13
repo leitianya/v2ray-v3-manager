@@ -43,7 +43,8 @@ RUN runDeps="git build-base linux-headers py3-cffi libffi-dev"\
 ENV PATH /usr/bin/v2ray:$PATH
 VOLUME /etc/v2ray/ /etc/shadowsocks-munager/ /var/log/v2ray/
 WORKDIR /etc/shadowsocks-munager
-CMD sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/shadowsocks-munager/config/config.yml && \
+CMD sed -i "s|docker:.*|docker: true|"  /etc/shadowsocks-munager/config/config.yml && \
+    sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|sspanel_url:.*|sspanel_url: '${sspanel_url}'|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|key:.*|key: '${key}'|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|speedtest:.*|speedtest: ${speedtest}|"  /etc/shadowsocks-munager/config/config.yml && \

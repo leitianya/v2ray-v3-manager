@@ -5,9 +5,9 @@ log_level: 'DEBUG'
 sspanel_url: 'https://xxx'
 key: 'asdfasdfasdf'
 
-node_id: 6
+node_id: 0
 
 upload_throughput_period: 60
 update_port_period: 60
 speedtest: false
-docker: true
+docker: false

@@ -157,11 +157,17 @@ class MuAPI:
         data = json.loads(r.text)['data']
         temp_server = data['server'].split(";")
         server = dict(zip(["server_address", 'port', 'AlterId', 'protocol', 'protocol_param'], temp_server[:5]))
+        # setting default
+        if "protocol" not in server:
+            server["protocol"] ="tcp"
+        elif not server["protocol"]:
+            server["protocol"] = "tcp"
+
+        if "protocol_param" not in server:
+            server["protocol_param"]=""
         if "protocol" in server:
             if server['protocol'] == "tls":
                 server['protocol'],server['protocol_param'] = server['protocol_param'] ,server['protocol']
-        if "protocol_param" not in server:
-            server["protocol_param"]=""
         temp_extraArgs = []
         if len(temp_server)==6:
             temp_extraArgs = temp_server[5].split("|")
