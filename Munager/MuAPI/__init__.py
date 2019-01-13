@@ -160,6 +160,8 @@ class MuAPI:
         if "protocol" in server:
             if server['protocol'] == "tls":
                 server['protocol'],server['protocol_param'] = server['protocol_param'] ,server['protocol']
+        if "protocol_param" not in server:
+            server["protocol_param"]=""
         temp_extraArgs = []
         if len(temp_server)==6:
             temp_extraArgs = temp_server[5].split("|")
