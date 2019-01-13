@@ -1,9 +1,9 @@
 FROM ubuntu:latest as builder
 
 LABEL maintainer="Rico <rico93@outlook.com>"
-LABEL V2Ray = "4.11.0"
+LABEL V2Ray = "4.12.0"
 
-ENV v2ray_version=4.11.0
+ENV v2ray_version=4.12.0
 
 RUN apt-get update
 RUN apt-get install curl -y
@@ -30,10 +30,11 @@ ENV LANG=C.UTF-8
 ENV PATH /usr/bin/v2ray:$PATH
 VOLUME /etc/v2ray/ /etc/shadowsocks-munager/ /var/log/v2ray/
 WORKDIR /etc/shadowsocks-munager
-CMD sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/shadowsocks-munager/config/config.yml && \
+CMD sed -i "s|api_port:.*|api_port: ${api_port}|"  /etc/shadowsocks-munager/config/config.yml && \
+    sed -i "s|docker:.*|docker: ${docker}|"  /etc/shadowsocks-munager/config/config.yml && \
+    sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|sspanel_url:.*|sspanel_url: '${sspanel_url}'|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|key:.*|key: '${key}'|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|speedtest:.*|speedtest: ${speedtest}|"  /etc/shadowsocks-munager/config/config.yml && \
-    sed -i "s|docker:.*|docker: ${docker}|"  /etc/shadowsocks-munager/config/config.yml && \
     (nohup v2ray -config=/etc/v2ray/config.json >/dev/null 2>&1 & )&& \
     python3 run.py --config-file=/etc/shadowsocks-munager/config/config.yml

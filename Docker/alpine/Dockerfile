@@ -2,9 +2,9 @@ FROM ubuntu:latest as builder
 
 LABEL maintainer="Rico <rico93@outlook.com>"
 
-LABEL V2Ray = "4.11.0"
+LABEL V2Ray = "4.12.0"
 
-ENV v2ray_version=4.11.0
+ENV v2ray_version=4.12.0
 
 RUN apt-get update
 RUN apt-get install curl -y
@@ -22,7 +22,6 @@ COPY --from=builder /usr/bin/v2ray/v2ctl /usr/bin/v2ray/
 COPY --from=builder /usr/bin/v2ray/geoip.dat /usr/bin/v2ray/
 COPY --from=builder /usr/bin/v2ray/geosite.dat /usr/bin/v2ray/
 
-LABEL v2ray_api_version="0.0.1"
 RUN runDeps="git build-base linux-headers py3-cffi libffi-dev"\
     && set -ex  \
     && apk add --no-cache ca-certificates \
@@ -43,7 +42,9 @@ RUN runDeps="git build-base linux-headers py3-cffi libffi-dev"\
 ENV PATH /usr/bin/v2ray:$PATH
 VOLUME /etc/v2ray/ /etc/shadowsocks-munager/ /var/log/v2ray/
 WORKDIR /etc/shadowsocks-munager
-CMD sed -i "s|docker:.*|docker: true|"  /etc/shadowsocks-munager/config/config.yml && \
+
+CMD sed -i "s|api_port:.*|api_port: ${api_port}|"  /etc/shadowsocks-munager/config/config.yml && \
+    sed -i "s|docker:.*|docker: true|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|sspanel_url:.*|sspanel_url: '${sspanel_url}'|"  /etc/shadowsocks-munager/config/config.yml && \
     sed -i "s|key:.*|key: '${key}'|"  /etc/shadowsocks-munager/config/config.yml && \

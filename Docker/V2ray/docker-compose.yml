@@ -11,6 +11,7 @@ services:
       docker: "true"
       speedtest: "false"
       node_id: 10
+      api_port: 2333
     logging:
       options:
         max-size: "10m"

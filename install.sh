@@ -139,11 +139,21 @@ pre_install_docker_compose(){
 
     # Set ssrpanel node_id
     echo "ssrpanel node_id"
-    read -p "(There is no default value please make sure you input the right thing):" ssrpanel_node_id
-    [ -z "${ssrpanel_node_id}" ]
+    read -p "(Default value: 0 ):" ssrpanel_node_id
+    [ -z "${ssrpanel_node_id}" ] && ssrpanel_speedtest="false"
     echo
     echo "---------------------------"
     echo "ssrpanel_node_id = ${ssrpanel_node_id}"
+    echo "---------------------------"
+    echo
+
+    # Set ssrpanel speedtest function
+    echo "Setting V2ray backend API Listen port"
+    read -p "(V2ray API Listen port(Default 2333):" v2ray_api_port
+    [ -z "${v2ray_api_port}" ] && v2ray_api_port=2333
+    echo
+    echo "---------------------------"
+    echo "ssrpanel_speedtest = ${v2ray_api_port}"
     echo "---------------------------"
     echo
 }
@@ -183,11 +193,11 @@ pre_install_caddy(){
 
     # Set Caddy v2ray listen port
     echo "caddy v2ray local listen port"
-    read -p "(Default path: 10550):" v2ray_port
-    [ -z "${v2ray_path}" ] && v2ray_port=10550
+    read -p "(Default path: 10550):" v2ray_local_port
+    [ -z "${v2ray_path}" ] && v2ray_local_port=10550
     echo
     echo "---------------------------"
-    echo "v2ray_path = ${v2ray_port}"
+    echo "v2ray_path = ${v2ray_local_port}"
     echo "---------------------------"
     echo
 
@@ -206,6 +216,7 @@ config_docker(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
 }
 
 
@@ -223,10 +234,11 @@ config_caddy_docker(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
-    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_port}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
 }
 
 # Config caddy_docker
@@ -266,10 +278,11 @@ config_caddy_docker_cloudflare(){
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
     sed -i "s|speedtest:.*|speedtest: '${ssrpanel_speedtest}'|"  ./docker-compose.yml
+    sed -i "s|api_port:.*|api_port: ${v2ray_api_port}|" ./docker-compose.yml
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
-    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_port}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_EMAIL=xxxxxx@out.look.com|      - CLOUDFLARE_EMAIL=${cloudflare_email}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_API_KEY=xxxxxxx|      - CLOUDFLARE_API_KEY=${cloudflare_key}|"  ./docker-compose.yml
 
