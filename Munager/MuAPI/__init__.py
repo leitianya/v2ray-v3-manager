@@ -57,6 +57,7 @@ class MuAPI:
                 data={
                     'count': amount,
                 },
+                params = {"key":self.config.get("key")},
                 timeout=10
             )
             self.webapi.parse(res=request,uri="online_count")

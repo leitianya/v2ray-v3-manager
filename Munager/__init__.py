@@ -120,7 +120,7 @@ class Munager(object):
     @staticmethod
     def del_servers():
         global db_instance
-        db_instance.logger.info("initial system")
+        db_instance.logger.info("Shut Down")
         db_instance.manager.remove_inbounds()
         db_instance.manager.users_to_be_removed = deepcopy(db_instance.manager.users)
         db_instance.manager.users_to_be_add = {}
