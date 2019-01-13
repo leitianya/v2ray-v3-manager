@@ -54,10 +54,8 @@ class MuAPI:
         try:
             request = self.webapi.session_pool.post(
                 url='{url_base}/mu/nodes/{id}/online_count'.format(url_base=self.url_base, id=self.node_id),
-                data={
-                    'count': amount,
-                },
                 params = {"key":self.config.get("key")},
+                json={"count":amount},
                 timeout=10
             )
             self.webapi.parse(res=request,uri="online_count")
