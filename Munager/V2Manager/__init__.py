@@ -9,7 +9,7 @@ class V2Manager:
     def __init__(self, config, current_node_info=None, next_node_info=None):
         self.config = config
         self.logger = logging.getLogger()
-        self.client = Client("127.0.0.1", config.get("api_port","2333"))
+        self.client = Client("127.0.0.1", "2333")
         self.current_node_info = current_node_info
         self.next_node_info = next_node_info
         self.if_user_change = False
