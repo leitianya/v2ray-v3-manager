@@ -23,6 +23,7 @@ class Munager(object):
 
         self.first_time_start = True
         self.event = threading.Event()
+        self.has_stopped = False
 
     def update_manager(self):
 
