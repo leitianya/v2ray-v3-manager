@@ -130,7 +130,7 @@ pre_install_docker_compose(){
     # Set ssrpanel speedtest function
     echo "use ssrpanel speedtest"
     read -p "(ssrpanel speedtest: Default (6) hours every time):" ssrpanel_speedtest
-    [ -z "${ssrpanel_speedtest}" ] && ssrpanel_speedtest=0
+    [ -z "${ssrpanel_speedtest}" ] && ssrpanel_speedtest=6
     echo
     echo "---------------------------"
     echo "ssrpanel_speedtest = ${ssrpanel_speedtest}"
@@ -147,13 +147,13 @@ pre_install_docker_compose(){
     echo "---------------------------"
     echo
 
-    # Set ssrpanel speedtest function
+    # Set V2ray backend API Listen port
     echo "Setting V2ray backend API Listen port"
     read -p "(V2ray API Listen port(Default 2333):" v2ray_api_port
     [ -z "${v2ray_api_port}" ] && v2ray_api_port=2333
     echo
     echo "---------------------------"
-    echo "ssrpanel_speedtest = ${v2ray_api_port}"
+    echo "V2ray API Listen port = ${v2ray_api_port}"
     echo "---------------------------"
     echo
 }
@@ -197,7 +197,7 @@ pre_install_caddy(){
     [ -z "${v2ray_path}" ] && v2ray_local_port=10550
     echo
     echo "---------------------------"
-    echo "v2ray_path = ${v2ray_local_port}"
+    echo "v2ray_local_port = ${v2ray_local_port}"
     echo "---------------------------"
     echo
 
