@@ -140,7 +140,7 @@ pre_install_docker_compose(){
     # Set ssrpanel node_id
     echo "ssrpanel node_id"
     read -p "(Default value: 0 ):" ssrpanel_node_id
-    [ -z "${ssrpanel_node_id}" ] && ssrpanel_speedtest="false"
+    [ -z "${ssrpanel_node_id}" ] && ssrpanel_node_id=0
     echo
     echo "---------------------------"
     echo "ssrpanel_node_id = ${ssrpanel_node_id}"
