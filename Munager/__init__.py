@@ -80,7 +80,6 @@ class Munager(object):
 
     def upload_throughput(self):
         current_user = self.manager.get_users()
-        online_amount = 0
         data = []
         for prefixed, user in current_user.items():
             laset_traffic_upload,laset_traffic_download,user_id= self.manager.get_last_traffic(user)
@@ -96,11 +95,9 @@ class Munager(object):
                 current_upload = int(current_upload)
 
             if current_download+current_upload < laset_traffic_upload+laset_traffic_download:
-                online_amount += 1
                 self.logger.warning('error throughput, try fix.')
                 self.manager.set_current_traffic(user, upload=current_upload,download=current_download)
             elif current_download+current_upload > laset_traffic_upload+laset_traffic_download:
-                online_amount += 1
                 upload_dif = current_upload - laset_traffic_upload
                 download_dif = current_download - laset_traffic_download
                 data.append({'u': upload_dif, 'd': download_dif, 'user_id': user_id,"user":user,"current_upload":current_upload,"current_download":current_download})
@@ -111,18 +108,11 @@ class Munager(object):
             for item in data:
                 user = item['user']
                 self.manager.set_current_traffic(user, upload=item['current_upload'],download=item['current_download'])
-            
             self.logger.info("Successfully upload {} users traffics".format(len(data)))
             del upload_data
             del data
         else:
             self.logger.info('update trafic faileds')
-
-        # update online users count
-        if self.mu_api.post_online_user(online_amount):
-            self.logger.info('upload online user count: {}.'.format(online_amount))
-        else:
-            self.logger.warning('failed to upload online user count.')
 
         self.mu_api.upload_systemload()
 
