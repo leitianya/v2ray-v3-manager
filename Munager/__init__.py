@@ -111,7 +111,10 @@ class Munager(object):
             for item in data:
                 user = item['user']
                 self.manager.set_current_traffic(user, upload=item['current_upload'],download=item['current_download'])
+            
             self.logger.info("Successfully upload {} users traffics".format(len(data)))
+            del upload_data
+            del data
         else:
             self.logger.info('update trafic faileds')
 
