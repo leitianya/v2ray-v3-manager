@@ -103,9 +103,14 @@ class Munager(object):
                 online_amount += 1
                 upload_dif = current_upload - laset_traffic_upload
                 download_dif = current_download - laset_traffic_download
-                data.append({'u': upload_dif, 'd': download_dif, 'user_id': user_id})
-
-        if self.mu_api.upload_throughput(data):
+                data.append({'u': upload_dif, 'd': download_dif, 'user_id': user_id,"user":user})
+        upload_data = []
+        for item in data:
+                upload_data.append({'u': item['u'], 'd': item['d'], 'user_id': item['user_id']})
+        if self.mu_api.upload_throughput(upload_data):
+            for item in data:
+                user = item['user']
+                self.manager.set_current_traffic(user, upload=item['u'],download=item['d'])
             self.logger.info("Successfully upload {} users traffics".format(len(data)))
         else:
             self.logger.info('update trafic faileds')
