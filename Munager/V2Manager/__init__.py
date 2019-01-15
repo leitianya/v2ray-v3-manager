@@ -4,6 +4,7 @@ from Munager.V2Manager.errors import *
 import uuid
 import os
 from configloader import  load_config
+from copy import deepcopy
 
 class V2Manager:
     def __init__(self,current_node_info=None, next_node_info=None):
@@ -124,6 +125,9 @@ class V2Manager:
             self.users[prefixed_id] = self.users_to_be_add.pop(prefixed_id)
 
     def update_server(self):
+        self.users_to_be_removed = deepcopy(self.users)
+        self.users_to_be_add = {}
+        self.update_users()
         self.remove_inbounds()
         self.add_main_inbound()
         self.users =dict()
