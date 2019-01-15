@@ -50,24 +50,6 @@ class MuAPI:
         except:
             return dict()
 
-    def post_online_user(self, amount):
-        try:
-            response = self.webapi.session_pool.post(
-                url='{url_base}/mu/nodes/{id}/online_count'.format(url_base=self.url_base, id=self.node_id),
-                params = {"key":self.config.get("key")},
-                json={"count":amount},
-                timeout=10
-            )
-            content = response.text
-            cont_json = json.loads(content, encoding='utf-8')
-            if cont_json.get('ret') != 1:
-                return False
-            else:
-                return True
-        except Exception as e:
-            self.logger.exception(e)
-            return False
-
     def upload_throughput(self, data):
         """
         {'u': dt_transfer[id][0], 'd': dt_transfer[

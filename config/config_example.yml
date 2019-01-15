@@ -6,7 +6,7 @@ sspanel_url: 'https://xxx'
 key: 'asdfasdfasdf'
 
 node_id: 0
-
+api_port: 2333
 upload_throughput_period: 60
 update_port_period: 60
 speedtest: 6
