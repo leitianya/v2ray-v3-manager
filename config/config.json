@@ -9,7 +9,7 @@
     },
     "inbounds": [{
             "listen": "127.0.0.1",
-            "port": 2333,
+            "port": 4444,
             "protocol": "dokodemo-door",
             "settings": {
                 "address": "127.0.0.1"
