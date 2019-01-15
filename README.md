@@ -163,7 +163,7 @@ python3.6 -V
 
 ~~~
 git clone -b v2ray_api https://github.com/alliswell2day/v2ray-v3-manager.git
-cd shadowsocks-munager
+cd v2ray-v3-manager
 cp config/config_example.yml config/config.yml
 cp config/config.json /etc/v2ray/config.json
 pip3.6 install -r requirements.txt
