@@ -46,6 +46,6 @@ class Vmess_user(User):
     def __init__(self, **entries):
         super(Vmess_user,self).__init__(**entries)
     def __eq__(self, other):
-        return other.id == self.id
+        return other.id == self.id and other.alterId == self.alterId
     def set_alterId(self,alterId):
         self.alterId = alterId

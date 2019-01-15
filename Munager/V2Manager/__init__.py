@@ -23,7 +23,7 @@ class V2Manager:
         if not self.config.get("docker",False):
             self.restart()
 
-    def get_users(self) -> dict:
+    def get_users(self):
 
         return self.users
 
@@ -126,6 +126,7 @@ class V2Manager:
     def update_server(self):
         self.remove_inbounds()
         self.add_main_inbound()
+        self.users =dict()
 
     def update_main_address_and_prot(self, node_info):
         if node_info['sort'] == 11:

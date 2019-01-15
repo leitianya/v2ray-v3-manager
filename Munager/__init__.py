@@ -34,6 +34,7 @@ class Munager(object):
             if json.dumps(self.manager.next_node_info,sort_keys=True,indent=2) != json.dumps(new_node_info,sort_keys=True,indent=2):
                 self.manager.next_node_info=new_node_info
                 self.manager.update_server()
+                self.manager.if_user_change = True
             # get from MuAPI and ss-manager
             users = self.mu_api.get_users('email', self.manager.next_node_info)
             current_user = self.manager.get_users()
