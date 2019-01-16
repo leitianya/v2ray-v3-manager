@@ -11,7 +11,7 @@ services:
       docker: "true"
       speedtest: 6
       node_id: 10
-      api_port: 2333
+      api_port: 4444
     logging:
       options:
         max-size: "10m"
@@ -28,7 +28,7 @@ services:
       - V2RAY_DOMAIN=xxxx.com
       - V2RAY_PATH=/v2ray
       - V2RAY_EMAIL=xxxx@outlook.com
-      - V2RAY_PORT=10550
+      - V2RAY_PORT=4445
     network_mode: "host"
     volumes:
       - ./.caddy:/root/.caddy
