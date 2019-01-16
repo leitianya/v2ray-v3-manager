@@ -193,8 +193,8 @@ pre_install_caddy(){
 
     # Set Caddy v2ray listen port
     echo "caddy v2ray local listen port"
-    read -p "(Default path: 10550):" v2ray_local_port
-    [ -z "${v2ray_path}" ] && v2ray_local_port=10550
+    read -p "(Default path: 4445):" v2ray_local_port
+    [ -z "${v2ray_local_port}" ] && v2ray_local_port=4445
     echo
     echo "---------------------------"
     echo "v2ray_local_port = ${v2ray_local_port}"
@@ -211,7 +211,7 @@ config_docker(){
     echo "install curl"
     install_dependencies
     echo "Writing docker-compose.yml"
-    curl -L https://raw.githubusercontent.com/rico93/shadowsocks-munager/v2ray_api/Docker/V2ray/docker-compose.yml > docker-compose.yml
+    curl -L https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/Docker/V2ray/docker-compose.yml > docker-compose.yml
     sed -i "s|node_id:.*|node_id: ${ssrpanel_node_id}|"  ./docker-compose.yml
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
@@ -227,9 +227,9 @@ config_caddy_docker(){
     cd ${cur_dir}
     echo "install curl"
     install_dependencies
-    curl -L https://raw.githubusercontent.com/rico93/shadowsocks-munager/v2ray_api/Docker/Caddy_V2ray/Caddyfile >  Caddyfile
+    curl -L https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/Docker/Caddy_V2ray/Caddyfile >  Caddyfile
     echo "Writing docker-compose.yml"
-    curl -L https://raw.githubusercontent.com/rico93/shadowsocks-munager/v2ray_api/Docker/Caddy_V2ray/docker-compose.yml > docker-compose.yml
+    curl -L https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/Docker/Caddy_V2ray/docker-compose.yml > docker-compose.yml
     sed -i "s|node_id:.*|node_id: ${ssrpanel_node_id}|"  ./docker-compose.yml
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
@@ -238,7 +238,7 @@ config_caddy_docker(){
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
-    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=4445|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
 }
 
 # Config caddy_docker
@@ -271,9 +271,9 @@ config_caddy_docker_cloudflare(){
     echo "install curl first "
     install_dependencies
     echo "Starting Writing Caddy file and docker-compose.yml"
-    curl -L https://raw.githubusercontent.com/rico93/shadowsocks-munager/v2ray_api/Docker/Caddy_V2ray/Caddyfile >Caddyfile
+    curl -L https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/Docker/Caddy_V2ray/Caddyfile >Caddyfile
     epcho "Writing docker-compose.yml"
-    curl -L https://raw.githubusercontent.com/rico93/shadowsocks-munager/v2ray_api/Docker/Caddy_V2ray/docker-compose.yml >docker-compose.yml
+    curl -L https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/Docker/Caddy_V2ray/docker-compose.yml >docker-compose.yml
     sed -i "s|node_id:.*|node_id: ${ssrpanel_node_id}|"  ./docker-compose.yml
     sed -i "s|sspanel_url:.*|sspanel_url: '${ssrpanel_url}'|"  ./docker-compose.yml
     sed -i "s|key:.*|key: '${ssrpanel_key}'|"  ./docker-compose.yml
@@ -282,7 +282,7 @@ config_caddy_docker_cloudflare(){
     sed -i "s|V2RAY_DOMAIN=xxxx.com|V2RAY_DOMAIN=${v2ray_domain}|"  ./docker-compose.yml
     sed -i "s|V2RAY_PATH=/v2ray|V2RAY_PATH=${v2ray_path}|"  ./docker-compose.yml
     sed -i "s|V2RAY_EMAIL=xxxx@outlook.com|V2RAY_EMAIL=${v2ray_email}|"  ./docker-compose.yml
-    sed -i "s|V2RAY_PORT=10550|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
+    sed -i "s|V2RAY_PORT=4445|V2RAY_PORT=${v2ray_local_port}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_EMAIL=xxxxxx@out.look.com|      - CLOUDFLARE_EMAIL=${cloudflare_email}|"  ./docker-compose.yml
     sed -i "s|#      - CLOUDFLARE_API_KEY=xxxxxxx|      - CLOUDFLARE_API_KEY=${cloudflare_key}|"  ./docker-compose.yml
 
