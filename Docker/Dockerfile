@@ -30,7 +30,7 @@ ENV LANG=C.UTF-8
 ENV PATH /usr/bin/v2ray:$PATH
 VOLUME /etc/v2ray/ /etc/v2ray-v3-manager/ /var/log/v2ray/
 WORKDIR /etc/shadowsocks-munager
-CMD sed -i "s|\"port\": 2333,|\"port\": ${api_port},|"  /etc/v2ray/config.json && \
+CMD sed -i "s|\"port\": 4444,|\"port\": ${api_port},|"  /etc/v2ray/config.json && \
     sed -i "s|api_port:.*|api_port: ${api_port}|"  /etc/v2ray-v3-manager/config/config.yml && \
     sed -i "s|docker:.*|docker: ${docker}|"  /etc/v2ray-v3-manager/config/config.yml && \
     sed -i "s|node_id:.*|node_id: ${node_id}|"  /etc/v2ray-v3-manager/config/config.yml && \
