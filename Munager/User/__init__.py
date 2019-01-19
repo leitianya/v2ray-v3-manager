@@ -27,7 +27,7 @@ class User:
             self.__dict__.pop('passwd')
 
     def if_available(self):
-        return True if self.disconnect_ip == None else False
+        return not self.disconnect_ip
 
     def __str__(self):
         return json.dumps(self.__dict__)
