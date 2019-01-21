@@ -7,12 +7,7 @@ curl https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/
 
 
 ~~~
-docker-compose up (ADD -d TO RUN IN BACKGROUND）
-~~~
 
-### Docker 
-
-~~~
 docker pull alliswell2day/v2ray:api_alpine
 
 
@@ -44,11 +39,12 @@ cp config/config.json /etc/v2ray/config.json
 pip3.6 install -r requirements.txt
 ~~~
 
+~~~
 **edit**
 
 edit: config.yml， docker SET TO false SET sspanel_url、key、node_id 。
 edit /etc/v2ray/config.json  config.yml  api_port, edit : config.json LINE 12。
-
+~~~
 **RUN：**
 
 ~~~
