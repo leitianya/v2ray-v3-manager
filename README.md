@@ -2,6 +2,8 @@
 ~~~
 mkdir v2ray-agent  &&  cd v2ray-agent
 curl https://raw.githubusercontent.com/alliswell2day/v2ray-v3-manager/v2ray_api/install.sh -o install.sh && chmod +x install.sh && bash install.sh
+
+docker-compose up _-d
 ~~~
 
 
